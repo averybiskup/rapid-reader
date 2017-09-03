@@ -59,7 +59,14 @@ export class TextArea extends Component {
   render() {
     return (
       <div>
-        <textarea id="text-area" placeholder="Paste text here" maxLength="10000" wrap="soft">
+        <textarea id="text-area" placeholder="Paste text here" maxLength="10000" wrap="soft" onKeyPress={(e) => {
+          if (!e) e = window.event
+          var keyCode = e.keyCode || e.which
+          if (keyCode == '13') {
+            this.getContent("text-area")
+            return false
+          }
+        }}>
         </textarea>
         <div id="button-div">
           <button onClick={() => {this.getContent("text-area")}}>Run</button>

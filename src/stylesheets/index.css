@@ -9,13 +9,7 @@ body {
   height: 200px;
   margin-top: 10px;
 }
-#speed-input {
-  width: 208px;
-}
-#speed-input.in {
-  color: rgba(255, 255, 255, 0.7)
-}
-#text-area, #speed-input {
+#text-area {
   border-radius: 5px;
   border: 2px solid white;
   background-color: transparent;
@@ -24,11 +18,7 @@ body {
   font-size: 15px;
   resize: none;
 }
-#text-area::placeholder, #speed-input::placeholder {
-  color: white;
-}
-#speed-input:active, #speed-input:hover, #speed-input:focus {
-  outline: none;
+#text-area::placeholder {
   color: white;
 }
 #text-area:active, #text-area:hover, #text-area:focus {
@@ -71,11 +61,4 @@ textarea.shake {
    -webkit-transform-origin:center center;
    -webkit-transform: rotate(-10deg);
  }
-}
-#speed-output {
-  display: inline;
-  font-size: 20px
-}
-#speed-container {
-  padding: 10px;
 }
