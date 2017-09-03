@@ -20,7 +20,7 @@ export class Speed extends Component {
     return (
       <div>
         <div id="slider-output">WPM: 60</div>
-        <div id="input-range"><input id="range" type="range" max="600" min="60" step="5" onChange={this.changeValue}/></div>
+        <div id="input-range"><input id="range" type="range" max="1000" min="1" step="10" onChange={this.changeValue}/></div>
       </div>
     )
   }
