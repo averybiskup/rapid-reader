@@ -1,5 +1,6 @@
 import React from 'react'
 import './../stylesheets/index.css'
+import './../stylesheets/slider.css'
 const { Component } = React
 
 export class Speed extends Component {
@@ -20,9 +21,17 @@ export class Speed extends Component {
     document.getElementById("speed-input").className = "in"
     console.log('hello')
   }
+  changeValue = () => {
+    let sliderNum = document.getElementById("range").value
+    this.calculate(sliderNum)
+    console.log(document.getElementById("range").value)
+    document.getElementById("slider-output").innerHTML = "WPM: " + document.getElementById("range").value
+  }
   render() {
     return (
       <div>
+        <div id="slider-output">WPM: 60</div>
+        <div id="input-range"><input id="range" type="range" max="600" min="60" step="5" onChange={this.changeValue}/></div>
         <div id="speed-container">
           <input id="speed-input" type="text" onBlur={() => { if (document.getElementById("speed-input").value.length > 0) this.sendData() }} placeholder="New WPM" onKeyPress={(e) => {
             if (!e) e = window.event

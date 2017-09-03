@@ -6,7 +6,9 @@ const { Component } = React
 class App extends Component {
   render() {
     return (
-      <TextArea />
+      <div>
+        <TextArea />
+      </div>
     );
   }
 }
