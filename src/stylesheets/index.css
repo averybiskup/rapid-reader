@@ -38,7 +38,7 @@ button {
 button:focus {
   outline: none;
 }
-button:active {
+button:hover, button:active {
   background-color: transparent;
   color: white;
 }
