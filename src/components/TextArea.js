@@ -43,6 +43,7 @@ export class TextArea extends Component {
     }
   }
   getContent = (element) => {
+    document.activeElement.blur();
     if (document.getElementById(element).value.length > 0) {
       this.showContent(document.getElementById(element).value)
     }
@@ -56,6 +57,20 @@ export class TextArea extends Component {
     document.getElementById("text-area").value = ""
     document.getElementById("num-player").innerHTML = ""
   }
+  detectmob = () => {
+    if( navigator.userAgent.match(/Android/i)
+    || navigator.userAgent.match(/webOS/i)
+   || navigator.userAgent.match(/iPhone/i)
+   || navigator.userAgent.match(/iPad/i)
+   || navigator.userAgent.match(/iPod/i)
+   || navigator.userAgent.match(/BlackBerry/i)
+   || navigator.userAgent.match(/Windows Phone/i)
+   ){
+     return true;
+    } else {
+    return false;
+  }
+}
   render() {
     return (
       <div>
@@ -63,7 +78,14 @@ export class TextArea extends Component {
           if (!e) e = window.event
           var keyCode = e.keyCode || e.which
           if (keyCode == '13') {
-            this.getContent("text-area")
+            if (this.detectmob()) {
+              document.activeElement.blur();
+              setTimeout(() => {
+                this.getContent("text-area")
+              }, 1000)
+            } else {
+              this.getContent("text-area")
+            }
             return false
           }
         }}>
