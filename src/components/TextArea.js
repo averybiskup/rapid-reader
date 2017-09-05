@@ -68,9 +68,20 @@ export class TextArea extends Component {
    ){
      return true;
     } else {
-    return false;
+      return false;
+    }
   }
-}
+  mobileCheck = () => {
+    if (this.detectmob()) {
+      document.getElemenyById("text-area").innerHTML = ""
+      document.activeElement.blur();
+      setTimeout(() => {
+        this.getContent("text-area")
+      }, 1000)
+    } else {
+      this.getContent("text-area")
+    }
+  }
   render() {
     return (
       <div>
@@ -78,15 +89,7 @@ export class TextArea extends Component {
           if (!e) e = window.event
           var keyCode = e.keyCode || e.which
           if (keyCode == '13') {
-            if (this.detectmob()) {
-              document.getElemenyById("text-area").innerHTML = ""
-              document.activeElement.blur();
-              setTimeout(() => {
-                this.getContent("text-area")
-              }, 1000)
-            } else {
-              this.getContent("text-area")
-            }
+            this.mobileCheck()
             return false
           }
         }}>
