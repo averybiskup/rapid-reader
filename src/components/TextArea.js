@@ -73,7 +73,6 @@ export class TextArea extends Component {
   }
   mobileCheck = () => {
     if (this.detectmob()) {
-      document.getElemenyById("text-area").innerHTML = ""
       document.activeElement.blur();
       setTimeout(() => {
         this.getContent("text-area")
