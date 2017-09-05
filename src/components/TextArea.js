@@ -69,30 +69,25 @@ export class TextArea extends Component {
    || navigator.userAgent.match(/BlackBerry/i)
    || navigator.userAgent.match(/Windows Phone/i)
    ){
-     return true;
-    } else {
-      return false;
-    }
+     return true
+    } else { return false }
   }
   mobileCheck = () => {
     if (this.detectmob()) {
       document.activeElement.blur();
-      setTimeout(() => {
-        this.getContent("text-area")
-      }, 1000)
-    } else {
-      this.getContent("text-area")
-    }
+      setTimeout(() => { this.getContent("text-area") }, 1000)
+    } else { this.getContent("text-area") }
+  }
+  setWordList = () => {
+    let temp = document.getElementById("text-area").value.split(' ')
+    temp = temp.filter((item) => { return item.length > 0 && this.state.chars.indexOf(item) <= 0 })
+    this.setState({ wordList: temp })
   }
   addEventListener = () => {
     document.getElementById("text-area").addEventListener('keydown', (e) => {
       this.setState({ set: true })
       var keyCode = e.keyCode || e.which
-      if (keyCode == '8') {
-        let temp = document.getElementById("text-area").value.split(' ')
-        temp = temp.filter((item) => { return item.length > 0 && this.state.chars.indexOf(item) <= 0 })
-        this.setState({ wordList: temp })
-      }
+      if (keyCode == '8') { this.setWordList() }
     })
   }
   render() {
@@ -106,11 +101,7 @@ export class TextArea extends Component {
             return false
           } else if (keyCode == '32') {
             if (this.state.set === false) { this.addEventListener() }
-
-            var temp = document.getElementById("text-area").value.split(' ')
-            
-            temp = temp.filter((item) => { return item.length > 0 && this.state.chars.indexOf(item) <= 0 })
-            this.setState({ wordList: temp })
+            this.setWordList()
           }
         }}>
         </textarea>
