@@ -31,6 +31,7 @@ input[type=range]::-ms-track {
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   border: 1px solid white;
+  padding: 5px;
   height: 36px;
   width: 16px;
   border-radius: 4px;
@@ -43,6 +44,7 @@ input[type=range]::-webkit-slider-thumb {
 input[type=range]::-moz-range-thumb {
   border: 1px solid white;
   height: 36px;
+  padding: 5px;
   width: 16px;
   border-radius: 3px;
   background: brown;
@@ -50,6 +52,7 @@ input[type=range]::-moz-range-thumb {
 }
 input[type=range]::-ms-thumb {
   border: 1px solid white;
+  padding: 5px;
   height: 36px;
   width: 16px;
   border-radius: 3px;
