@@ -79,6 +79,7 @@ export class TextArea extends Component {
           var keyCode = e.keyCode || e.which
           if (keyCode == '13') {
             if (this.detectmob()) {
+              document.getElemenyById("text-area").innerHTML = ""
               document.activeElement.blur();
               setTimeout(() => {
                 this.getContent("text-area")
