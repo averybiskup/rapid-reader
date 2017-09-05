@@ -3,12 +3,12 @@
   width: 80%;
 }
 #input-range {
-  width: 100%;
+  width: 90%;
   display: inline-block
 }
 input[type=range] {
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-  width: 100%; /* Specific width is required for Firefox. */
+  width: 90%; /* Specific width is required for Firefox. */
   background: transparent; /* Otherwise white in Chrome */
   display: inline-block
 }
