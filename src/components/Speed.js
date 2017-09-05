@@ -14,7 +14,7 @@ export class Speed extends Component {
   changeValue = () => {
     let sliderNum = document.getElementById("range").value
     this.calculate(sliderNum)
-    document.getElementById("slider-output").innerHTML = "WPM: " + document.getElementById("range").value
+    document.getElementById("slider-output").innerHTML = "WPM: 40" + document.getElementById("range").value
   }
   render() {
     return (
