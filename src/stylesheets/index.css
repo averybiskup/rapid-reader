@@ -62,3 +62,10 @@ textarea.shake {
    -webkit-transform: rotate(-10deg);
  }
 }
+#word-count {
+  display: inline;
+}
+#slider-output {
+  display: inline;
+  margin-left: 20px;
+}

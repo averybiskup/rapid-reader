@@ -10,7 +10,9 @@ export class TextArea extends Component {
     this.state = {
       speedData: 1000,
       wordList: [],
-      running: true
+      running: true,
+      set: false,
+      chars: ["!", ".", ",", "*", "&", "^", "%", "$", "#", "@", "-", "_", "(", ")", "="]
     }
   }
   myCallback = (dataFromChild) => {
@@ -32,13 +34,14 @@ export class TextArea extends Component {
   }
   showContent = (str) => {
     let mainList = []
-    let str2 = str.replace(/["!:'"]/gi, '')
+    let str2 = str.replace(/[""]/gi, '')
     str2.split(' ').map((i) => {
       return mainList.push(i)
     })
     if (mainList.length) {
       this.setState({ wordList: mainList, running: true }, () => {
         this.displayWords(this.state.wordList)
+        console.log(mainList.length)
       })
     }
   }
@@ -81,6 +84,17 @@ export class TextArea extends Component {
       this.getContent("text-area")
     }
   }
+  addEventListener = () => {
+    document.getElementById("text-area").addEventListener('keydown', (e) => {
+      this.setState({ set: true })
+      var keyCode = e.keyCode || e.which
+      if (keyCode == '8') {
+        let temp = document.getElementById("text-area").value.split(' ')
+        temp = temp.filter((item) => { return item.length > 0 && this.state.chars.indexOf(item) <= 0 })
+        this.setState({ wordList: temp })
+      }
+    })
+  }
   render() {
     return (
       <div>
@@ -90,13 +104,20 @@ export class TextArea extends Component {
           if (keyCode == '13') {
             this.mobileCheck()
             return false
+          } else if (keyCode == '32') {
+            if (this.state.set === false) { this.addEventListener() }
+
+            var temp = document.getElementById("text-area").value.split(' ')
+            
+            temp = temp.filter((item) => { return item.length > 0 && this.state.chars.indexOf(item) <= 0 })
+            this.setState({ wordList: temp })
           }
         }}>
         </textarea>
         <div id="button-div">
           <button onClick={() => {this.mobileCheck()}}>Run</button>
           <button onClick={() => {this.clearContent()}}>Clear</button>
-          <Speed cb={this.myCallback}/>
+          <Speed cb={this.myCallback} array={this.state.wordList}/>
         </div>
         <div id="num-player"></div>
       </div>
