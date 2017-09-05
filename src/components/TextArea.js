@@ -71,6 +71,17 @@ export class TextArea extends Component {
       return false;
     }
   }
+  mobileCheck = () => {
+    if (this.detectmob()) {
+      document.getElemenyById("text-area").innerHTML = ""
+      document.activeElement.blur();
+      setTimeout(() => {
+        this.getContent("text-area")
+      }, 1000)
+    } else {
+      this.getContent("text-area")
+    }
+  }
   render() {
     return (
       <div>
@@ -78,21 +89,13 @@ export class TextArea extends Component {
           if (!e) e = window.event
           var keyCode = e.keyCode || e.which
           if (keyCode == '13') {
-            if (this.detectmob()) {
-              document.getElemenyById("text-area").innerHTML = ""
-              document.activeElement.blur();
-              setTimeout(() => {
-                this.getContent("text-area")
-              }, 1000)
-            } else {
-              this.getContent("text-area")
-            }
+            this.mobileCheck()
             return false
           }
         }}>
         </textarea>
         <div id="button-div">
-          <button onClick={() => {this.getContent("text-area")}}>Run</button>
+          <button onClick={() => {this.mobileCheck()}}>Run</button>
           <button onClick={() => {this.clearContent()}}>Clear</button>
           <Speed cb={this.myCallback}/>
         </div>
