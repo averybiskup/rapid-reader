@@ -35,7 +35,14 @@ export class TextArea extends Component {
   showContent = (str) => {
     let mainList = []
     let str2 = str.replace(/[""]/gi, '')
+    let longestWord = ""
     str2.split(' ').map((i) => {
+      if (i.length > longestWord) {
+        longestWord = i
+        console.log(longestWord, longestWord.length * 2)
+        document.getElementById("num-player").style.fontSize = longestWord.length * 10 + "px"
+        console.log(window.innerWidth, 'test')
+      }
       return mainList.push(i)
     })
     if (mainList.length) {

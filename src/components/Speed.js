@@ -14,14 +14,14 @@ export class Speed extends Component {
   changeValue = () => {
     let sliderNum = document.getElementById("range").value
     this.calculate(sliderNum)
-    document.getElementById("slider-output").innerHTML = "WPM: 40" + document.getElementById("range").value
+    document.getElementById("slider-output").innerHTML = "WPM: " + document.getElementById("range").value
   }
   render() {
     return (
       <div>
         <div>
           <div id="word-count">Word Count: {this.props.array.length}</div>
-          <div id="slider-output">WPM: </div>
+          <div id="slider-output">WPM: 40</div>
         </div>
         <div id="input-range"><input id="range" type="range" max="1000" min="10" step="10" onChange={this.changeValue}/></div>
       </div>
