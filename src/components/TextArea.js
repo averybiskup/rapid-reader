@@ -28,6 +28,8 @@ export class TextArea extends Component {
         console.log(i)
         i++
         setTimeout(show, this.state.speedData)
+      } else {
+        document.getElementById("run").disabled = false
       }
     }
     show()
@@ -40,7 +42,6 @@ export class TextArea extends Component {
       if (i.length > longestWord) {
         longestWord = i
         console.log(longestWord, longestWord.length * 2)
-        document.getElementById("num-player").style.fontSize = longestWord.length * 10 + "px"
         console.log(window.innerWidth, 'test')
       }
       return mainList.push(i)
@@ -80,6 +81,7 @@ export class TextArea extends Component {
     } else { return false }
   }
   mobileCheck = () => {
+    document.getElementById("run").disabled = true
     if (this.detectmob()) {
       document.activeElement.blur();
       setTimeout(() => { this.getContent("text-area") }, 1000)
@@ -113,8 +115,9 @@ export class TextArea extends Component {
         }}>
         </textarea>
         <div id="button-div">
-          <button onClick={() => {this.mobileCheck()}}>Run</button>
+          <button onClick={() => {this.mobileCheck()}} id="run">Run</button>
           <button onClick={() => {this.clearContent()}}>Clear</button>
+          <button onClick={() => {console.log("paused")}}>Pause</button>
           <Speed cb={this.myCallback} array={this.state.wordList}/>
         </div>
         <div id="num-player"></div>
