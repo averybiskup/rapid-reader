@@ -59,8 +59,10 @@ export class TextArea extends Component {
       this.showContent(document.getElementById(element).value)
     }
     else {
-      document.getElementById("text-area").className = "shake"
-      setTimeout(() => { document.getElementById("text-area").className = "noShake" }, 500)
+      // document.getElementById("text-area").style.fontSize = "100px"
+      // document.getElementById("text-area").className = "shake"
+      // setTimeout(() => { document.getElementById("text-area").style.fontSize = "30px" }, 500)
+      document.getElementById("run").disabled = false
     }
   }
   clearContent = () => {
@@ -96,19 +98,19 @@ export class TextArea extends Component {
     document.getElementById("text-area").addEventListener('keydown', (e) => {
       this.setState({ set: true })
       var keyCode = e.keyCode || e.which
-      if (keyCode == '8') { this.setWordList() }
+      if (keyCode === 8) { this.setWordList() }
     })
   }
   render() {
     return (
       <div>
-        <textarea id="text-area" placeholder="Paste text here" maxLength="10000" wrap="soft" onKeyPress={(e) => {
+        <textarea onFocus={() => { document.getElementById("text-area").style.fontSize = "15px" }} id="text-area" placeholder="Paste text here" maxLength="10000" wrap="soft" onKeyPress={(e) => {
           if (!e) e = window.event
           var keyCode = e.keyCode || e.which
-          if (keyCode == '13') {
+          if (keyCode === 13) {
             this.mobileCheck()
             return false
-          } else if (keyCode == '32') {
+          } else if (keyCode === 32) {
             if (this.state.set === false) { this.addEventListener() }
             this.setWordList()
           }
