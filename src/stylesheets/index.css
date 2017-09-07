@@ -24,7 +24,7 @@ textarea:active, textarea:hover, textarea:focus {
 }
 button {
   height: 40px;
-  width: 100px;
+  width: 20%;
   background-color: white;
   border-radius: 2px;
   border: 2px solid white;
