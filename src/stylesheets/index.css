@@ -82,3 +82,6 @@ button-div {
 .no-input::placeholder {
   text-decoration: underline;
 }
+#vid {
+  display: none;
+}
