@@ -1,6 +1,7 @@
 import React from 'react'
 import { Speed } from './Speed'
 import './../stylesheets/index.css'
+import { Video } from './Video'
 
 const { Component } = React
 
@@ -124,6 +125,7 @@ export class TextArea extends Component {
           <Speed cb={this.myCallback} array={this.state.wordList}/>
         </div>
         <div id="num-player"></div>
+        <Video />
       </div>
     )
   }
