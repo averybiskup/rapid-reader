@@ -59,10 +59,11 @@ export class TextArea extends Component {
       this.showContent(document.getElementById(element).value)
     }
     else {
-      document.getElementById("text-area").style.fontSize = (this.detectmob()) ? "40px" : "100px"
-      // document.getElementById("text-area").className = "shake"
-      setTimeout(() => { document.getElementById("text-area").style.fontSize = "60px" }, 500)
-      document.getElementById("run").disabled = false
+      document.getElementById("text-area").classList.add("no-input")
+      setTimeout(() => {
+        document.getElementById("text-area").classList.remove("no-input")
+        document.getElementById("run").disabled = false
+      }, 500)
     }
   }
   clearContent = () => {

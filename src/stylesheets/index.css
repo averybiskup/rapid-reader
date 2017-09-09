@@ -3,6 +3,8 @@ body {
   color: white;
   text-align: center;
   font-size: 25px;
+  font-family: 'Encode Sans Condensed', Verdana, sans-serif;
+  letter-spacing: 2px;
 }
 textarea {
   font-size: 60px;
@@ -61,4 +63,22 @@ button-div {
 #slider-output {
   display: inline;
   margin-left: 20px;
+}
+#icon {
+  display: none;
+  font-size: 50px;
+}
+@media screen (orientation: landscape) {
+  #root {
+    display: none;
+  }
+  #icon {
+    display: block;
+  }
+}
+#icon-render {
+  font-size: 200px;
+}
+.no-input::placeholder {
+  text-decoration: underline;
 }
