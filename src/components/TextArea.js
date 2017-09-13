@@ -31,6 +31,9 @@ export class TextArea extends Component {
         console.log(i)
         i++
         setTimeout(show, this.state.speedData)
+        window.onresize = () => {
+          document.getElementById("num-player").style.fontSize = this.editSize(document.getElementById("text-area").value.split(' '))
+        }
         document.getElementById("run").disabled = true
       } else {
         this.setState({ total: this.state.total + i})
