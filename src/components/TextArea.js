@@ -1,7 +1,6 @@
 import React from 'react'
 import { Speed } from './Speed'
 import './../stylesheets/index.css'
-import { Video } from './Video'
 
 const { Component } = React
 
@@ -13,7 +12,9 @@ export class TextArea extends Component {
       wordList: [],
       running: true,
       set: false,
-      chars: ["!", ".", ",", "*", "&", "^", "%", "$", "#", "@", "-", "_", "(", ")", "="]
+      chars: ["!", ".", ",", "*", "&", "^", "%", "$", "#", "@", "-", "_", "(", ")", "="],
+      total: 0,
+      firstClick: false
     }
   }
   myCallback = (dataFromChild) => {
@@ -23,13 +24,17 @@ export class TextArea extends Component {
   }
   displayWords = (arr) => {
     let i = 0
+    console.log('testing', arr, this.state.running)
     let show = () => {
       if (i < arr.length && this.state.running === true) {
         document.getElementById("num-player").innerHTML = arr[i]
         console.log(i)
         i++
         setTimeout(show, this.state.speedData)
+        document.getElementById("run").disabled = true
       } else {
+        this.setState({ total: this.state.total + i})
+        console.log('failed?', this.state.running)
         document.getElementById("run").disabled = false
       }
     }
@@ -37,7 +42,7 @@ export class TextArea extends Component {
   }
   showContent = (str) => {
     let mainList = []
-    let str2 = str.replace(/[""]/gi, '')
+    let str2 = str.replace(/[.]/gi, '. ')
     let longestWord = ""
     str2.split(' ').map((i) => {
       if (i.length > longestWord) {
@@ -50,7 +55,6 @@ export class TextArea extends Component {
     if (mainList.length) {
       this.setState({ wordList: mainList, running: true }, () => {
         this.displayWords(this.state.wordList)
-        console.log(mainList.length)
       })
     }
   }
@@ -85,6 +89,8 @@ export class TextArea extends Component {
     } else { return false }
   }
   mobileCheck = () => {
+    document.getElementById("num-player").style.fontSize = this.editSize(document.getElementById("text-area").value.split(' '))
+    this.setState({ firstClick: true, total: 0 })
     document.getElementById("run").disabled = true
     if (this.detectmob()) {
       document.activeElement.blur();
@@ -102,6 +108,61 @@ export class TextArea extends Component {
       var keyCode = e.keyCode || e.which
       if (keyCode === 8) { this.setWordList() }
     })
+  }
+  pause = () => {
+    if (this.state.firstClick === true) {
+      document.getElementById("pause").disabled = true
+      setTimeout(() => { document.getElementById("pause").disabled = false }, 500)
+      if (this.state.running === true) {
+        this.setState({ running: false })
+      } else {
+        this.setState({ running: true }, () => {
+          this.displayWords(this.state.wordList.slice(this.state.total, this.state.wordList.length))
+        })
+      }
+    }
+  }
+  editSize = (arr) => {
+    let wordTest = document.getElementById("word-test")
+    let edit = document.getElementById("num-player")
+    let width = wordTest.offsetWidth
+    let n = 0, tempWord = "", done = false, style, fontSize
+
+    wordTest.style.display = "inline"
+    wordTest.style.fontSize = '1px'
+    wordTest.style.margin = '0px'
+    wordTest.style.padding = '0px'
+
+    let changeOut = (str) => {
+      let newStr = []
+      str.split('').map(() => { newStr.push('W') })
+      return newStr.join('')
+    }
+
+    arr.map((word) => {
+      n++
+      if (word.length > tempWord.length) { tempWord = word.toUpperCase() }
+      if (n === arr.length) { done = true }
+    })
+
+    if (done === true) {
+      wordTest.innerHTML = changeOut(tempWord)
+      let sub = (this.detectmob()) ? -100 : 100
+      for (var i = width; i < window.innerWidth; i += 10) {
+        if (width >= window.innerWidth - sub) { // change this - 100 based on if the machine is a phone or computer - larger if computer / smaller is phone
+          edit.style.fontSize = fontSize + "px"
+          wordTest.style.display = "none"
+          return fontSize + "px" // final font size
+        }
+        else if (n <= 1) {
+          wordTest.style.display = "none"
+        }
+        wordTest.style.fontSize = i + "px"
+        width = wordTest.offsetWidth
+        style = window.getComputedStyle(wordTest, null).getPropertyValue("font-size")
+        fontSize = parseFloat(style)
+      }
+    }
   }
   render() {
     return (
@@ -121,11 +182,11 @@ export class TextArea extends Component {
         <div id="button-div">
           <button onClick={() => {this.mobileCheck()}} id="run">Run</button>
           <button onClick={() => {this.clearContent()}}>Clear</button>
-          <button onClick={() => {console.log("paused")}}>Pause</button>
+          <button onClick={() => {this.pause()}} id="pause">Pause</button>
           <Speed cb={this.myCallback} array={this.state.wordList}/>
         </div>
         <div id="num-player"></div>
-        <Video />
+        <div id="word-test"></div>
       </div>
     )
   }

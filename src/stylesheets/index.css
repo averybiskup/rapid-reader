@@ -2,9 +2,6 @@ body {
   background-color: brown;
   color: white;
   text-align: center;
-  font-size: 25px;
-  font-family: 'Encode Sans Condensed', Verdana, sans-serif;
-  letter-spacing: 2px;
 }
 textarea {
   font-size: 60px;
@@ -45,9 +42,6 @@ button:active {
 button-div {
   text-align: center;
 }
-#num-player {
-  font-size: 50px;
-}
 @-webkit-keyframes shake {
  from {
     -webkit-transform: rotate(10deg);
@@ -84,4 +78,15 @@ button-div {
 }
 #vid {
   display: none;
+}
+#word-test {
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+  font-size: 1px;
+}
+.font {
+  font-size: 25px;
+  font-family: 'Encode Sans Condensed', Verdana, sans-serif;
+  letter-spacing: 2px;
 }
