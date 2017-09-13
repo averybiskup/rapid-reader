@@ -12,8 +12,7 @@ export class Speed extends Component {
     this.props.cb(parseFloat(1000.00 / num))
   }
   changeValue = () => {
-    let sliderNum = document.getElementById("range").value
-    this.calculate(sliderNum)
+    this.calculate(document.getElementById("range").value)
     document.getElementById("slider-output").innerHTML = "WPM: " + document.getElementById("range").value
   }
   render() {
