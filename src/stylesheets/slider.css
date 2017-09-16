@@ -30,12 +30,12 @@ input[type=range]::-ms-track {
 }
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  border: 1px solid white;
+  border: 3px solid white;
   padding: 5px 20px 5px 20px;
   height: 36px;
   width: 16px;
   border-radius: 4px;
-  background: brown;
+  background: white;
   cursor: pointer;
   margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
 }
@@ -47,7 +47,7 @@ input[type=range]::-moz-range-thumb {
   padding: 5px 20px 5px 20px;
   width: 16px;
   border-radius: 3px;
-  background: brown;
+  background: white;
   cursor: pointer;
 }
 input[type=range]::-ms-thumb {
@@ -56,7 +56,7 @@ input[type=range]::-ms-thumb {
   height: 36px;
   width: 16px;
   border-radius: 3px;
-  background: brown;
+  background: white;
   cursor: pointer;
 }
 input[type=range]::-webkit-slider-runnable-track {

@@ -1,7 +1,27 @@
+html {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4EAB9E), to(#207D86));
+  background: -webkit-linear-gradient(left top, #4EAB9E, #207D86);
+  background: -moz-linear-gradient(left top, #4EAB9E, #207D86);
+  background: -ms-linear-gradient(left top, #4EAB9E, #207D86);
+  background: -o-linear-gradient(left top, #4EAB9E, #207D86);
+  background: linear-gradient(left bottom, #D2003F, #207D86);
+}
 body {
-  background-color: brown;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4EAB9E), to(#207D86));
+  background: -webkit-linear-gradient(left top, #4EAB9E, #207D86);
+  background: -moz-linear-gradient(left top, #4EAB9E, #207D86);
+  background: -ms-linear-gradient(left top, #4EAB9E, #207D86);
+  background: -o-linear-gradient(left top, #4EAB9E, #207D86);
+  background: linear-gradient(left bottom, #D2003F, #207D86);
   color: white;
   text-align: center;
+  overflow-x: hidden;
 }
 textarea {
   font-size: 60px;
@@ -24,11 +44,11 @@ textarea:active, textarea:hover, textarea:focus {
 button {
   height: 40px;
   width: 20%;
-  background-color: white;
-  border-radius: 2px;
+  background-color: transparent;
+  border-radius: 10px;
   border: 2px solid white;
   margin: 10px;
-  color: brown;
+  color: white;
   padding: 2px;
   font-size: 20px;
 }
@@ -36,8 +56,8 @@ button:focus {
   outline: none;
 }
 button:active {
-  background-color: transparent;
-  color: white;
+  background-color: white;
+  color: #207D86;
 }
 button-div {
   text-align: center;

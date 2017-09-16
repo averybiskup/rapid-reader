@@ -42,16 +42,9 @@ export class TextArea extends Component {
   }
 
   showContent = (str) => {
-    let mainList = [], longestWord = ''
-    let str2 = str.replace(/[.]/gi, '. ')
-    str2.split(' ').map((i) => {
-      if (i.length > longestWord) {
-        longestWord = i
-      }
-      return mainList.push(i)
-    })
-    if (mainList.length) {
-      this.setState({ wordList: mainList, running: true }, () => {
+    let str2 = str.replace(/[.]/gi, '. ').split(' ')
+    if (str2.length) {
+      this.setState({ wordList: str2, running: true }, () => {
         this.displayWords(this.state.wordList)
       })
     }
@@ -61,8 +54,7 @@ export class TextArea extends Component {
     document.activeElement.blur();
     if (document.getElementById(element).value.length > 0) {
       this.showContent(document.getElementById(element).value)
-    }
-    else {
+    } else {
       document.getElementById('text-area').classList.add('no-input')
       setTimeout(() => {
         document.getElementById('text-area').classList.remove('no-input')
@@ -154,18 +146,20 @@ export class TextArea extends Component {
     if (done === true) {
       wordTest.innerHTML = changeOut(tempWord)
       let sub = (this.detectmob()) ? -100 : 0
-      if (changeOut(tempWord).length <= 4 || this.state.wordList.length < 3) {
+      if (changeOut(tempWord).length <= 4 || this.state.wordList.length < 3 && changeOut(tempWord).length <= 15) {
         wordTest.style.display = 'none'
-        return '100px'
+        return (this.detectmob()) ? '25px' : '100px'
       }
       else {
         for (var i = width; i < window.innerWidth; i += 10) {
-          if (width >= window.innerWidth - sub) {
+          if (changeOut(tempWord).length >= 25) {
+            edit.style.fontSize = '3vw'
+            wordTest.style.display = 'none'
+          } else if (width >= window.innerWidth - sub) {
             edit.style.fontSize = fontSize + 'px'
             wordTest.style.display = 'none'
             return fontSize + 'px'
-          }
-          else if (n <= 1) {
+          } else if (n <= 1) {
             wordTest.style.display = 'none'
           }
           wordTest.style.fontSize = i + 'px'
