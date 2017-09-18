@@ -83,13 +83,26 @@ export class TextArea extends Component {
   }
 
   mobileCheck = () => {
+    let test = window.getSelection().toString().split(' ').filter((test) => {
+      return test.length > 1
+    })
+    if (this.detectmob()) {
+      document.activeElement.blur();
+      if (test.length >= 2) {
+        this.showContent(test.join(' '))
+      } else {
+        setTimeout(() => { this.getContent('text-area') }, 1000)
+      }
+    } else {
+      if (test.length >= 2) {
+        this.showContent(test.join(' '))
+      } else {
+        this.getContent('text-area')
+      }
+    }
     document.getElementById('num-player').style.fontSize = this.editSize(document.getElementById('text-area').value.split(' '))
     this.setState({ firstClick: true, total: 0 })
     document.getElementById('run').disabled = true
-    if (this.detectmob()) {
-      document.activeElement.blur();
-      setTimeout(() => { this.getContent('text-area') }, 1000)
-    } else { this.getContent('text-area') }
   }
 
   setWordList = () => {
@@ -99,6 +112,7 @@ export class TextArea extends Component {
   }
 
   pause = () => {
+    window.getSelection().empty() // So we don't show the previously highlighted part of text
     if (this.state.firstClick === true) {
       document.getElementById('pause').disabled = true
       setTimeout(() => { document.getElementById('pause').disabled = false }, 500)
