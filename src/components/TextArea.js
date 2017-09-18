@@ -28,6 +28,7 @@ export class TextArea extends Component {
 
   displayWords = (arr) => {
     let i = 0
+    document.getElementById('text-area').disabled = true
     let show = () => {
       if (i < arr.length && this.state.running === true) {
         document.getElementById('num-player').innerHTML = arr[i]
@@ -86,6 +87,7 @@ export class TextArea extends Component {
   }
 
   mobileCheck = () => {
+    if (document.getElementById('run').innerHTML === 'Restart') { document.getElementById('run').innerHTML = 'Run (return)' }
     this.setState({ currentWord: 0, currentHolder: 0})
     let test = window.getSelection().toString().split(' ').filter((test) => {
       return test.length > 1
@@ -116,6 +118,8 @@ export class TextArea extends Component {
   }
 
   pause = () => {
+    document.getElementById('text-area').disabled = false
+    document.getElementById('run').innerHTML = 'Restart'
     this.setState({ current: this.state.currentWord })
     window.getSelection().empty() // So we don't show the previously highlighted part of text
     if (this.state.firstClick === true) {
@@ -126,6 +130,7 @@ export class TextArea extends Component {
       } else {
         this.setState({ running: true }, () => {
           this.displayWords(this.state.wordList.slice(this.state.total, this.state.wordList.length))
+          document.getElementById('text-area').disabled = true
         })
       }
     }
@@ -197,7 +202,7 @@ export class TextArea extends Component {
         }}>
         </textarea>
         <div id="button-div">
-          <button onClick={() => {this.mobileCheck()}} id="run">Run (enter)</button>
+          <button onClick={() => {this.mobileCheck()}} id="run">Run (return)</button>
           <button onClick={() => {this.clearContent()}}>Clear</button>
           <button onClick={() => {this.pause()}} id="pause">Pause</button>
           <Speed cb={this.myCallback} array={this.state.wordList} currentWord={this.state.currentWord}/>
