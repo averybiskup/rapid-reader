@@ -14,13 +14,15 @@ export class TextArea extends Component {
       set: false,
       chars: ['!', '.', ',', '*', '&', '^', '%', '$', '#', '@', '-', '_', '(', ')', '='],
       total: 0,
-      firstClick: false
+      firstClick: false,
+      currentWord: 0,
+      currentHolder: 0
     }
   }
 
   myCallback = (dataFromChild) => {
     this.setState({ speedData: dataFromChild }, () => {
-      console.log(this.state.speedDataFromChild)
+      console.log(this.state.speedData)
     })
   }
 
@@ -31,6 +33,7 @@ export class TextArea extends Component {
         document.getElementById('num-player').innerHTML = arr[i]
         i++
         setTimeout(show, this.state.speedData)
+        this.setState({ currentWord: i + this.state.currentHolder })
         window.onresize = () => { document.getElementById('num-player').style.fontSize = this.editSize(document.getElementById('text-area').value.split(' ')) }
         document.getElementById('run').disabled = true
       } else {
@@ -83,6 +86,7 @@ export class TextArea extends Component {
   }
 
   mobileCheck = () => {
+    this.setState({ currentWord: 0, currentHolder: 0})
     let test = window.getSelection().toString().split(' ').filter((test) => {
       return test.length > 1
     })
@@ -112,6 +116,7 @@ export class TextArea extends Component {
   }
 
   pause = () => {
+    this.setState({ current: this.state.currentWord })
     window.getSelection().empty() // So we don't show the previously highlighted part of text
     if (this.state.firstClick === true) {
       document.getElementById('pause').disabled = true
@@ -195,7 +200,7 @@ export class TextArea extends Component {
           <button onClick={() => {this.mobileCheck()}} id="run">Run (enter)</button>
           <button onClick={() => {this.clearContent()}}>Clear</button>
           <button onClick={() => {this.pause()}} id="pause">Pause</button>
-          <Speed cb={this.myCallback} array={this.state.wordList}/>
+          <Speed cb={this.myCallback} array={this.state.wordList} currentWord={this.state.currentWord}/>
         </div>
         <div id="num-player"></div>
         <div id="word-test"></div>

@@ -19,7 +19,7 @@ export class Speed extends Component {
     return (
       <div>
         <div>
-          <div className="font" id="word-count">Word Count: {this.props.array.length}</div>
+          <div className="font" id="word-count">Word Count: {this.props.array.length} | {this.props.currentWord}</div>
           <div className="font" id="slider-output">WPM: 40</div>
         </div>
         <div id="input-range"><input id="range" type="range" max="1000" min="10" step="10" onChange={this.changeValue}/></div>

@@ -73,6 +73,7 @@ button-div {
 }
 #word-count {
   display: inline;
+  margin-right: 10px;
 }
 #slider-output {
   display: inline;
