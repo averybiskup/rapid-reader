@@ -98,14 +98,6 @@ export class TextArea extends Component {
     this.setState({ wordList: temp })
   }
 
-  addEventListener = () => {
-    document.getElementById('text-area').addEventListener('keydown', (e) => {
-      this.setState({ set: true })
-      var keyCode = e.keyCode || e.which
-      if (keyCode === 8) { this.setWordList() }
-    })
-  }
-
   pause = () => {
     if (this.state.firstClick === true) {
       document.getElementById('pause').disabled = true
@@ -146,7 +138,7 @@ export class TextArea extends Component {
     if (done === true) {
       wordTest.innerHTML = changeOut(tempWord)
       let sub = (this.detectmob()) ? -100 : 0
-      if (changeOut(tempWord).length <= 4 || this.state.wordList.length < 3 && changeOut(tempWord).length <= 15) {
+      if ((changeOut(tempWord).length <= 4 || this.state.wordList.length < 3) && changeOut(tempWord).length <= 15) {
         wordTest.style.display = 'none'
         return (this.detectmob()) ? '25px' : '100px'
       }
@@ -180,14 +172,13 @@ export class TextArea extends Component {
           if (keyCode === 13) {
             this.mobileCheck()
             return false
-          } else if (keyCode === 32) {
-            if (this.state.set === false) { this.addEventListener() }
-            this.setWordList()
           }
+        }} onKeyUp={() => {
+          this.setWordList()
         }}>
         </textarea>
         <div id="button-div">
-          <button onClick={() => {this.mobileCheck()}} id="run">Run</button>
+          <button onClick={() => {this.mobileCheck()}} id="run">Run (enter)</button>
           <button onClick={() => {this.clearContent()}}>Clear</button>
           <button onClick={() => {this.pause()}} id="pause">Pause</button>
           <Speed cb={this.myCallback} array={this.state.wordList}/>
