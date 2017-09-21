@@ -44,8 +44,8 @@ textarea:active, textarea:hover, textarea:focus {
 button {
   height: 40px;
   width: 20%;
+  border-radius: 5px;
   background-color: transparent;
-  border-radius: 10px;
   border: 2px solid white;
   margin: 10px;
   color: white;
@@ -55,9 +55,9 @@ button {
 button:focus {
   outline: none;
 }
-button:active {
-  background-color: white;
-  color: #207D86;
+button:active, button:focus {
+  background-color: transparent;
+  color: white;
 }
 button-div {
   text-align: center;
@@ -103,5 +103,15 @@ button-div {
 @media screen and (max-height: 400px) and (orientation:landscape) {
   textarea {
     height: 100px;
+  }
+}
+@media screen and (min-width: 1300px) {
+  .unhoverable:hover {
+    background-color: transparent;
+    color: white;
+  }
+  .hoverable:hover {
+    background-color: white;
+    color: #207D86
   }
 }

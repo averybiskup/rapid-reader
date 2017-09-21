@@ -1,6 +1,8 @@
 import React from 'react'
 import { Speed } from './Speed'
 import './../stylesheets/index.css'
+let d = require('./detectMobile')
+let e = require('./word-size.js')
 
 const { Component } = React
 
@@ -27,19 +29,30 @@ export class TextArea extends Component {
   }
 
   displayWords = (arr) => {
-    let i = 0
-    document.getElementById('text-area').disabled = true
+    let i = 0, textArea = document.getElementById('text-area'), run = document.getElementById('run')
+
+    this.setState({ firstClick: true, total: 0 })
+
+    textArea.disabled = true
+    textArea.style.display = 'none'
+
     let show = () => {
       if (i < arr.length && this.state.running === true) {
         document.getElementById('num-player').innerHTML = arr[i]
         i++
         setTimeout(show, this.state.speedData)
         this.setState({ currentWord: i + this.state.currentHolder })
-        window.onresize = () => { document.getElementById('num-player').style.fontSize = this.editSize(document.getElementById('text-area').value.split(' ')) }
-        document.getElementById('run').disabled = true
+        window.onresize = () => { document.getElementById('num-player').style.fontSize = e.editSize(document.getElementById('text-area').value.split(' '), this.state.wordList) }
+        run.disabled = true
+        run.className = ''
       } else {
         this.setState({ total: this.state.total + i})
-        document.getElementById('run').disabled = false
+
+        run.disabled = false
+        run.className = 'hoverable'
+
+        textArea.disabled = false
+        textArea.style.display = 'inline'
       }
     }
     show()
@@ -73,41 +86,18 @@ export class TextArea extends Component {
     document.getElementById('num-player').innerHTML = ''
   }
 
-  detectmob = () => {
-    if( navigator.userAgent.match(/Android/i)
-    || navigator.userAgent.match(/webOS/i)
-   || navigator.userAgent.match(/iPhone/i)
-   || navigator.userAgent.match(/iPad/i)
-   || navigator.userAgent.match(/iPod/i)
-   || navigator.userAgent.match(/BlackBerry/i)
-   || navigator.userAgent.match(/Windows Phone/i)
-   ){
-     return true
-    } else { return false }
-  }
-
   mobileCheck = () => {
-    if (document.getElementById('run').innerHTML === 'Restart') { document.getElementById('run').innerHTML = 'Run (return)' }
+    if (document.getElementById('run').innerHTML === 'Restart') { document.getElementById('run').innerHTML = 'Run' }
     this.setState({ currentWord: 0, currentHolder: 0})
-    let test = window.getSelection().toString().split(' ').filter((test) => {
-      return test.length > 1
-    })
-    if (this.detectmob()) {
-      document.activeElement.blur();
-      if (test.length >= 2) {
-        this.showContent(test.join(' '))
-      } else {
-        setTimeout(() => { this.getContent('text-area') }, 1000)
-      }
-    } else {
-      if (test.length >= 2) {
-        this.showContent(test.join(' '))
-      } else {
-        this.getContent('text-area')
-      }
+    let test = window.getSelection().toString().split(' ').filter((test) => { return test.length > 1 })
+
+    let setTime = (timewait) => {
+      if (timewait >= 10) document.activeElement.blur();
+      (test.length >= 2) ? this.showContent(test.join(' ')) : setTimeout(() => { this.getContent('text-area') }, timewait)
     }
-    document.getElementById('num-player').style.fontSize = this.editSize(document.getElementById('text-area').value.split(' '))
-    this.setState({ firstClick: true, total: 0 })
+    setTime((d.detectmob()) ? 1000 : 0)
+
+    document.getElementById('num-player').style.fontSize = e.editSize(document.getElementById('text-area').value.split(' '), this.state.wordList)
     document.getElementById('run').disabled = true
   }
 
@@ -118,16 +108,16 @@ export class TextArea extends Component {
   }
 
   pause = () => {
-    document.getElementById('text-area').disabled = false
-    document.getElementById('run').innerHTML = 'Restart'
-    this.setState({ current: this.state.currentWord })
+    this.setState({ currentHolder: this.state.currentWord })
     window.getSelection().empty() // So we don't show the previously highlighted part of text
     if (this.state.firstClick === true) {
+      document.getElementById('text-area').disabled = false
+      document.getElementById('run').innerHTML = 'Restart'
       document.getElementById('pause').disabled = true
+
       setTimeout(() => { document.getElementById('pause').disabled = false }, 500)
-      if (this.state.running === true) {
-        this.setState({ running: false })
-      } else {
+      if (this.state.running === true) { this.setState({ running: false })}
+      else {
         this.setState({ running: true }, () => {
           this.displayWords(this.state.wordList.slice(this.state.total, this.state.wordList.length))
           document.getElementById('text-area').disabled = true
@@ -136,55 +126,9 @@ export class TextArea extends Component {
     }
   }
 
-  editSize = (arr) => {
-    let wordTest = document.getElementById('word-test')
-    let edit = document.getElementById('num-player')
-    let width = wordTest.offsetWidth
-    let n = 0, tempWord = '', done = false, style, fontSize
-
-    wordTest.style.display = 'inline'
-    wordTest.style.fontSize = '1px'
-    wordTest.style.margin = '0px'
-    wordTest.style.padding = '0px'
-
-    let changeOut = (str) => {
-      let newStr = []
-      str.split('').map(() => { newStr.push('W') })
-      return newStr.join('')
-    }
-
-    arr.map((word) => {
-      n++
-      if (word.length > tempWord.length) { tempWord = word }
-      if (n === arr.length) { done = true }
-    })
-
-    if (done === true) {
-      wordTest.innerHTML = changeOut(tempWord)
-      let sub = (this.detectmob()) ? -100 : 0
-      if ((changeOut(tempWord).length <= 4 || this.state.wordList.length < 3) && changeOut(tempWord).length <= 15) {
-        wordTest.style.display = 'none'
-        return (this.detectmob()) ? '25px' : '100px'
-      }
-      else {
-        for (var i = width; i < window.innerWidth; i += 10) {
-          if (changeOut(tempWord).length >= 25) {
-            edit.style.fontSize = '3vw'
-            wordTest.style.display = 'none'
-          } else if (width >= window.innerWidth - sub) {
-            edit.style.fontSize = fontSize + 'px'
-            wordTest.style.display = 'none'
-            return fontSize + 'px'
-          } else if (n <= 1) {
-            wordTest.style.display = 'none'
-          }
-          wordTest.style.fontSize = i + 'px'
-          width = wordTest.offsetWidth
-          style = window.getComputedStyle(wordTest, null).getPropertyValue('font-size')
-          fontSize = parseFloat(style)
-        }
-      }
-    }
+  color(element) {
+    element.className = 'unhoverable'
+    setTimeout(() => { element.className = 'hoverable' }, 500)
   }
 
   render() {
@@ -202,9 +146,9 @@ export class TextArea extends Component {
         }}>
         </textarea>
         <div id="button-div">
-          <button onClick={() => {this.mobileCheck()}} id="run">Run (return)</button>
-          <button onClick={() => {this.clearContent()}}>Clear</button>
-          <button onClick={() => {this.pause()}} id="pause">Pause</button>
+          <button className="hoverable" onClick={() => {this.mobileCheck(); this.color(document.getElementById("run"))}} id="run">Run</button>
+          <button className="hoverable" onClick={() => {this.clearContent(); this.color(document.getElementById("clear"))}} id="clear">Clear</button>
+          <button className="hoverable" onClick={() => {this.pause(); this.color(document.getElementById("pause"))}} id="pause">Pause</button>
           <Speed cb={this.myCallback} array={this.state.wordList} currentWord={this.state.currentWord}/>
         </div>
         <div id="num-player"></div>
