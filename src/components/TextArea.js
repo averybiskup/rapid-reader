@@ -1,6 +1,7 @@
 import React from 'react'
 import { Speed } from './Speed'
 import './../stylesheets/index.css'
+import classNames from 'classnames'
 let d = require('./detectMobile')
 let e = require('./word-size.js')
 
@@ -34,7 +35,8 @@ export class TextArea extends Component {
     this.setState({ firstClick: true, total: 0 })
 
     textArea.disabled = true
-    textArea.style.display = 'none'
+    // textArea.style.display = 'none'
+    textArea.className = 'shrink'
 
     let show = () => {
       if (i < arr.length && this.state.running === true) {
@@ -53,9 +55,15 @@ export class TextArea extends Component {
 
         textArea.disabled = false
         textArea.style.display = 'inline'
+        setTimeout(() => {
+          textArea.className = ''
+        }, 1000)
+        // textArea.style.display = 'inline'
       }
     }
-    show()
+    setTimeout(() => {
+      show()
+    }, 1000)
   }
 
   showContent = (str) => {
@@ -91,11 +99,8 @@ export class TextArea extends Component {
     this.setState({ currentWord: 0, currentHolder: 0})
     let test = window.getSelection().toString().split(' ').filter((test) => { return test.length > 1 })
 
-    let setTime = (timewait) => {
-      if (timewait >= 10) document.activeElement.blur();
-      (test.length >= 2) ? this.showContent(test.join(' ')) : setTimeout(() => { this.getContent('text-area') }, timewait)
-    }
-    setTime((d.detectmob()) ? 1000 : 0)
+    document.activeElement.blur();
+    (test.length >= 2) ? this.showContent(test.join(' ')) : this.getContent('text-area')
 
     document.getElementById('num-player').style.fontSize = e.editSize(document.getElementById('text-area').value.split(' '), this.state.wordList)
     document.getElementById('run').disabled = true
@@ -146,7 +151,7 @@ export class TextArea extends Component {
         }}>
         </textarea>
         <div id="button-div">
-          <button className="hoverable" onClick={() => {this.mobileCheck(); this.color(document.getElementById("run"))}} id="run">Run</button>
+          <button className={classNames("hoverable")} onClick={() => {this.mobileCheck(); this.color(document.getElementById("run"))}} id="run">Run</button>
           <button className="hoverable" onClick={() => {this.clearContent(); this.color(document.getElementById("clear"))}} id="clear">Clear</button>
           <button className="hoverable" onClick={() => {this.pause(); this.color(document.getElementById("pause"))}} id="pause">Pause</button>
           <Speed cb={this.myCallback} array={this.state.wordList} currentWord={this.state.currentWord}/>
