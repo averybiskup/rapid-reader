@@ -145,10 +145,6 @@ export class TextArea extends Component {
           if (keyCode === 13) {
             this.mobileCheck()
             return false
-          } else if (keyCode === 32) {
-            if (this.state.running === false) {
-              this.pause()
-            }
           }
         }} onKeyUp={() => {
           this.setWordList()
